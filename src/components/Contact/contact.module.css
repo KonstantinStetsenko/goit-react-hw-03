@@ -1,0 +1,31 @@
+.cardContact {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  border-radius: 8px;
+  width: 300px;
+  padding: 10px;
+  align-items: center;
+}
+.buttonDel {
+  display: flex;
+  border: 1px solid black;
+  justify-content: center;
+  width: 80px;
+  height: 36px;
+  align-items: center;
+}
+.user,
+.phone {
+  margin-right: 12px;
+}
+.contactName,
+.contactPhone {
+  display: flex;
+  align-items: center;
+}
+.formContact {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

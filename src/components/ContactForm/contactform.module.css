@@ -1,0 +1,29 @@
+.ContactForm {
+  display: flex;
+  flex-direction: column;
+
+  width: 300px;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 15px;
+}
+.button {
+  margin-top: 20px;
+  margin-bottom: 32px;
+  border: 1px solid black;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.labelForm {
+  margin-top: 32px;
+  text-align: start;
+}
+.textForm {
+  height: 22px;
+}
+.errorMass {
+  font-size: 14px;
+  color: red;
+  font-weight: 600;
+}
