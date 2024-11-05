@@ -1,8 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import style from "./contactform.module.css";
 import * as Yup from "yup";
-import { string, number } from "yup";
 import { nanoid } from "nanoid";
+import { useId } from "react";
 
 const FeedbackSchema = Yup.object().shape({
   username: Yup.string()
@@ -16,61 +16,56 @@ const FeedbackSchema = Yup.object().shape({
     .required("Required"),
 });
 
-export default function ContactForm({ id, onAdd }) {
-  const handlSubmit = (e) => {
-    e.preventDefault();
-    e.target.reset();
-    onAdd({
-      name: e.target.elements.username.velue,
-      number: e.target.elements.number.velue,
-      id: nanoid(),
-    });
-  };
+export default function ContactForm({ onAdd }) {
+  const idUsername = useId();
+  const idNumber = useId();
 
   return (
     <Formik
       validationSchema={FeedbackSchema}
       initialValues={{ username: "", number: "" }}
       onSubmit={(values, { resetForm }) => {
-        onAdd({ id: nanoid(), name: values.username, number: values.number });
+        onAdd({ id: idUsername, name: values.username, number: values.number });
         resetForm();
       }}
     >
-      <Form className={style.ContactForm}>
-        <label className={style.labelForm} htmlFor={id}>
-          Name
-        </label>
-        <Field
-          className={style.textForm}
-          type="text"
-          name="username"
-          placeholder="Username"
-          id={id}
-        />
-        <ErrorMessage
-          className={style.errorMass}
-          name="username"
-          component="span"
-        />
-        <label className={style.labelForm} htmlFor={id}>
-          Number
-        </label>
-        <Field
-          className={style.textForm}
-          type="text"
-          name="number"
-          placeholder="Number"
-          id={id}
-        />
-        <ErrorMessage
-          className={style.errorMass}
-          name="number"
-          component="span"
-        />
-        <button className={style.button} type="submit">
-          Add Contact
-        </button>
-      </Form>
+      {() => (
+        <Form className={style.ContactForm}>
+          <label className={style.labelForm} htmlFor={idUsername}>
+            Name
+          </label>
+          <Field
+            className={style.textForm}
+            type="text"
+            name="username"
+            placeholder="Имя"
+            id={idUsername}
+          />
+          <ErrorMessage
+            className={style.errorMass}
+            name="username"
+            component="span"
+          />
+          <label className={style.labelForm} htmlFor={idNumber}>
+           Number
+          </label>
+          <Field
+            className={style.textForm}
+            type="text"
+            name="number"
+            placeholder="Номер"
+            id={idNumber}
+          />
+          <ErrorMessage
+            className={style.errorMass}
+            name="number"
+            component="span"
+          />
+          <button className={style.button} type="submit">
+            Add Contact
+          </button>
+        </Form>
+      )}
     </Formik>
   );
 }
