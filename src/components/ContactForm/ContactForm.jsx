@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import style from "./contactform.module.css";
 import * as Yup from "yup";
+import { string, number } from "yup";
 import { nanoid } from "nanoid";
 import { useId } from "react";
 
@@ -17,55 +18,65 @@ const FeedbackSchema = Yup.object().shape({
 });
 
 export default function ContactForm({ onAdd }) {
-  const idUsername = useId();
-  const idNumber = useId();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    onAdd({
+      name: e.target.elements.username.value,
+      number: e.target.elements.number.velue,
+      id: nanoid(),
+    });
+       console.log(e.currentTarget.elements)
+  };
+  const inputNameId = useId();
+    const inputNumberId = useId();
+    
+   
 
   return (
     <Formik
       validationSchema={FeedbackSchema}
       initialValues={{ username: "", number: "" }}
       onSubmit={(values, { resetForm }) => {
-        onAdd({ id: idUsername, name: values.username, number: values.number });
+        onAdd({ id: nanoid(), name: values.username, number: values.number });
         resetForm();
       }}
     >
-      {() => (
-        <Form className={style.ContactForm}>
-          <label className={style.labelForm} htmlFor={idUsername}>
-            Name
-          </label>
-          <Field
-            className={style.textForm}
-            type="text"
-            name="username"
-            placeholder="Имя"
-            id={idUsername}
-          />
-          <ErrorMessage
-            className={style.errorMass}
-            name="username"
-            component="span"
-          />
-          <label className={style.labelForm} htmlFor={idNumber}>
-           Number
-          </label>
-          <Field
-            className={style.textForm}
-            type="text"
-            name="number"
-            placeholder="Номер"
-            id={idNumber}
-          />
-          <ErrorMessage
-            className={style.errorMass}
-            name="number"
-            component="span"
-          />
-          <button className={style.button} type="submit">
-            Add Contact
-          </button>
-        </Form>
-      )}
+      <Form className={style.ContactForm}>
+        <label className={style.labelForm} htmlFor={inputNameId}>
+          Name
+        </label>
+        <Field
+          className={style.textForm}
+          type="text"
+          name="username"
+          placeholder="Username"
+          id={inputNameId}
+        />
+        <ErrorMessage
+          className={style.errorMass}
+          name="username"
+          component="span"
+        />
+        <label className={style.labelForm} htmlFor={inputNumberId}>
+          Number
+        </label>
+        <Field
+          className={style.textForm}
+          type="text"
+          name="number"
+          placeholder="Number"
+          id={inputNumberId}
+        />
+        <ErrorMessage
+          className={style.errorMass}
+          name="number"
+          component="span"
+        />
+        <button className={style.button} type="submit">
+          Add Contact
+        </button>
+      </Form>
     </Formik>
   );
 }

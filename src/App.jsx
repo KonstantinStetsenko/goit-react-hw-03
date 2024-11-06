@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Formik } from "formik";
 import ContactList from "./components/ContactList/ContactList";
@@ -18,28 +16,30 @@ function App() {
 
   const [inputValue, setInputValue] = useState("");
   const [names, setNames] = useState(() => {
-  try {
-    const savedNames = JSON.parse(window.localStorage.getItem("saved-list"));
-    // Убедимся, что это массив объектов с полем `name`
-    if (Array.isArray(savedNames) && savedNames.every(item => item.name && item.number)) {
-      return savedNames;
-    } else {
+    try {
+      const savedNames = JSON.parse(window.localStorage.getItem("saved-list"));
+      // Убедимся, что это массив объектов с полем `name`
+      if (
+        Array.isArray(savedNames) &&
+        savedNames.every((item) => item.name && item.number)
+      ) {
+        return savedNames;
+      } else {
+        return arrCantacts;
+      }
+    } catch (error) {
+      console.error("Error parsing localStorage data:", error);
       return arrCantacts;
     }
-  } catch (error) {
-    console.error("Error parsing localStorage data:", error);
-    return arrCantacts;
-  }
-});
-
+  });
 
   const addName = (newName) => {
-  if (!newName || !newName.name || !newName.number) {
-    console.error("Invalid contact data:", newName);
-    return;
-  }
-  setNames((prevNames) => [...prevNames, { ...newName, id: nanoid() }]);
-};
+    if (!newName || !newName.name || !newName.number) {
+      console.error("Invalid contact data:", newName);
+      return;
+    }
+    setNames((prevNames) => [...prevNames, { ...newName, id: nanoid() }]);
+  };
 
   useEffect(() => {
     window.localStorage.setItem("saved-list", JSON.stringify(names));
@@ -55,9 +55,12 @@ function App() {
   const handleChange = (evt) => {
     setInputValue(evt.target.value);
   };
- const filteredContacts = names.filter((contact) =>
-  contact && contact.name && contact.name.toLowerCase().includes(inputValue.toLowerCase())
-);
+  const filteredContacts = names.filter(
+    (contact) =>
+      contact &&
+      contact.name &&
+      contact.name.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div>
